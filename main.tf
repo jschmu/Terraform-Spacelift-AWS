@@ -54,7 +54,7 @@ resource "aws_security_group" "mtc_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["95.90.184.106/32"]
+    cidr_blocks = ["77.25.32.198/32"]
   }
 
   egress {
@@ -81,14 +81,14 @@ resource "aws_instance" "dev_node" {
     Name = "dev_node"
   }
 
-  # provisioner "local-exec" {
-  # command = templatefile("${var.host_os}-ssh-config.tpl", {
-  #   hostname = self.public_ip,
-  #   user = "ubuntu",
-  #   identityfile = "C:/Users/schmu/.ssh/mtckey"
-  #   })
-  #   interpreter = var.host_os == "windows" ? ["PowerShell", "-Command"] : ["Bash", "-c"]
-  # }
+  provisioner "local-exec" {
+  command = templatefile("${var.host_os}-ssh-config.tpl", {
+    hostname = self.public_ip,
+    user = "ubuntu",
+    identityfile = "C:/Users/schmu/.ssh/mtckey"
+    })
+    interpreter = var.host_os == "windows" ? ["PowerShell", "-Command"] : ["Bash", "-c"]
+  }
 }
 
 #just adding a comment

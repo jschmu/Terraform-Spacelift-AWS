@@ -10,5 +10,5 @@ terraform {
 provider "aws" {
   region                   = "eu-central-1"
   shared_credentials_files = ["c:/Users/schmu/.aws/credentials  "]
-  profile                  = "vscode_user"
+  #profile                  = "vscode_user"
 }

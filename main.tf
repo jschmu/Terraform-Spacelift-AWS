@@ -85,8 +85,7 @@ resource "aws_instance" "dev_node" {
   # command = templatefile("${var.host_os}-ssh-config.tpl", {
   #   hostname = self.public_ip,
   #   user = "ubuntu",
-  #   identityfile = "C:/Users/schmu/.ssh/mtckey"
-  #   })
+  #   identityfile = "C:/Users/schmu/.ssh/mtckey"})
   #   interpreter = var.host_os == "windows" ? ["PowerShell", "-Command"] : ["Bash", "-c"]
   # }
 }

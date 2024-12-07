@@ -81,13 +81,13 @@ resource "aws_instance" "dev_node" {
     Name = "dev_node"
   }
 
-  # provisioner "local-exec" {
-  # command = templatefile("${var.host_os}-ssh-config.tpl", {
-  #   hostname = self.public_ip,
-  #   user = "ubuntu",
-  #   identityfile = "C:/Users/schmu/.ssh/mtckey"})
-  #   interpreter = var.host_os == "windows" ? ["PowerShell", "-Command"] : ["Bash", "-c"]
-  # }
+  provisioner "local-exec" {
+  command = templatefile("${var.host_os}-ssh-config.tpl", {
+    hostname = self.public_ip,
+    user = "ubuntu",
+    identityfile = "C:/Users/schmu/.ssh/mtckey"})
+    interpreter = var.host_os == "windows" ? ["PowerShell", "-Command"] : ["Bash", "-c"]
+  }
 }
 
 #just adding a comment

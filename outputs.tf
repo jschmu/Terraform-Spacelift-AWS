@@ -8,3 +8,4 @@ output "connection_script" {
     user = "ubuntu",
     identityfile = "~/.ssh/mtckey"})
 }
+

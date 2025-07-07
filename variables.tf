@@ -1,5 +1,5 @@
-variable "host_os" {
-  type = string
+variable "host_os" { #defined as a context from Spacelift
+  type = string 
 }
 
 variable "aws_region" {

@@ -51,8 +51,8 @@ resource "aws_security_group" "mtc_sg" {
   description = "security group for dev"
   vpc_id      = aws_vpc.mtc_vpc.id
   ingress {
-    from_port   = 0
-    to_port     = 0
+    from_port   = 22
+    to_port     = 22
     protocol    = "-1"
     cidr_blocks = ["77.25.32.198/32"]
   }

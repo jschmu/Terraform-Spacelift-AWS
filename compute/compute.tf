@@ -1,6 +1,7 @@
 resource "aws_key_pair" "mtc_auth" {
   key_name   = "mtckey"
-  public_key = file("/mnt/workspace/mtckey.pub")
+  public_key = file("/mnt/workspace/mtckey.pub") #for spacelift deployment
+  #public_key = file("../mtckey.pub") #for local testing without pushing to repository
 }
 
 resource "aws_instance" "dev_node" {
@@ -14,6 +15,7 @@ resource "aws_instance" "dev_node" {
     Name = "dev_node"
   }
 
+  #provisioner is not used when running in Spacelift
   # provisioner "local-exec" {
   # command = templatefile("${var.host_os}-ssh-config.tpl", {
   #   hostname = self.public_ip,

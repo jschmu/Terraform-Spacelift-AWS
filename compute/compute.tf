@@ -1,7 +1,7 @@
-resource "aws_key_pair" "mtc_auth" {
-  key_name   = "mtckey"
-  public_key = file("/mnt/workspace/mtckey.pub") #for spacelift deployment
-  #public_key = file("../mtckey.pub") #for local testing without pushing to repository
+resource "aws_key_pair" "tsa_auth" {
+  key_name   = "tsakey"
+  public_key = file("/mnt/workspace/tsakey.pub") #for spacelift deployment
+  #public_key = file("../tsakey.pub") #for local testing without pushing to repository
 }
 
 resource "aws_instance" "dev_node" {

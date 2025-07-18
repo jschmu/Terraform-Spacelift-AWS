@@ -1,6 +1,6 @@
 # AWS Dev Environment Automation with Terraform, GitHub, and Spacelift
 
-This project automates the provisioning of a secure and accessible development environment in AWS using Infrastructure as Code (IaC) principles. It leverages **Terraform** for infrastructure definition, **GitHub** for version control and CI/CD integration, and **Spacelift** for automated plan and apply workflows. The primary goal is to provide a reproducible and self-service mechanism for developers to spin up their isolated dev workspaces.
+This project automates the provisioning of a secure and accessible development environment in AWS using Infrastructure as Code (IaC) principles. It leverages **Terraform** for infrastructure definition, **GitHub** for version control and CI/CD integration, and **Spacelift** for automated plan and apply workflows. The primary goal is to provide a reproducible mechanism for developers to spin up their isolated dev workspaces.
 
 ## Table of Contents
 
@@ -79,11 +79,14 @@ Before you begin, ensure you have the following:
 
 Once the Spacelift apply is successful, Terraform will output a `connection_script`. This script is designed to add an entry to your local SSH configuration file (`~/.ssh/config`) or provide direct `ssh` command.
 
-1.  **Retrieve the Connection Script:**
+1.  **Security Warning!**
+    This project uses security group rules allowing open access to port 22 (SSH) from any IP (0.0.0.0/0). This is for testing and learning purposes only. In production or public-facing environments, always restrict access to trusted IP ranges and use proper firewall rules. 
+
+2.  **Retrieve the Connection Script:**
     * Go to the Spacelift run details for your successful `apply`.
     * Look for the `Outputs` section and copy the content of the `connection_script` output.
 
-2.  **Execute the Connection Script (Example for Linux/macOS):**
+3.  **Execute the Connection Script (Example for Linux/macOS):**
     If the output is designed to be directly executed (e.g., `echo "Host dev-node..." >> ~/.ssh/config`):
     ```bash
     # Paste the copied connection_script output here and run it
@@ -95,7 +98,7 @@ Once the Spacelift apply is successful, Terraform will output a `connection_scri
     ```
     Make sure your private key (`~/.ssh/mtckey`) has the correct permissions (`chmod 400 ~/.ssh/mtckey`).
 
-3.  **Connect via VS Code:**
+4.  **Connect via VS Code:**
     * Open VS Code.
     * Press `F1` or `Ctrl+Shift+P` to open the command palette.
     * Type `Remote-SSH: Connect to Host...` and select it.

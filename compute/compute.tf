@@ -7,7 +7,7 @@ resource "aws_key_pair" "tsa_auth" {
 resource "aws_instance" "dev_node" {
   instance_type          = "t2.micro"
   ami                    = data.aws_ami.server_ami.id
-  key_name               = aws_key_pair.tsa_auth.id
+  key_name               = aws_key_pair.tsa_auth.key_name
   vpc_security_group_ids = var.security_group_id
   subnet_id              = var.subnet_id
   user_data              = file("${path.module}/userdata.tpl")

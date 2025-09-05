@@ -58,7 +58,7 @@ Before you begin, ensure you have the following:
 * A Spacelift account configured to integrate with your GitHub repository.
 * Terraform CLI installed locally (for local testing/development, though Spacelift handles the primary execution).
 * VS Code with the Remote-SSH extension installed.
-* An SSH key pair (`mtckey` and `mtckey.pub`) generated on your local machine. The public key (`mtckey.pub`) needs to be accessible by Terraform (e.g., if running locally, ensure the path `/mnt/workspace/mtckey.pub` is correct or adjust the `file()` function in `compute.tf` to point to your key's location). For Spacelift, you would typically manage SSH keys via Spacelift's environment variables or secrets.
+* An SSH key pair (`tsakey` and `tsakey.pub`) generated on your local machine. The public key (`tsakey.pub`) needs to be accessible by Terraform (e.g., if running locally, ensure the path `/mnt/workspace/tsakey.pub` is correct or adjust the `file()` function in `compute.tf` to point to your key's location). For Spacelift, you would typically manage SSH keys via Spacelift's environment variables or secrets.
 
 ### Deployment with Spacelift
 
@@ -69,7 +69,7 @@ Before you begin, ensure you have the following:
     * Set the **Project Root** to the root of this repository.
     * Configure Spacelift to use your AWS credentials (e.g., via IAM Role or Access Keys).
     * Ensure any necessary environment variables are set in Spacelift, especially for the `host_os` variable if it's not hardcoded or automatically determined (e.g., `TF_VAR_host_os = "linux"` or `"windows"`).
-    * Crucially, you'll need to provide your SSH public key to Spacelift. This can often be done via a Spacelift secret or environment variable that Terraform can access. The `aws_key_pair.mtc_auth` resource requires the public key content.
+    * Crucially, you'll need to provide your SSH public key to Spacelift. This can often be done via a Spacelift secret or environment variable that Terraform can access. The `aws_key_pair.tsa_auth` resource requires the public key content.
 3.  **Trigger a Run:**
     * Push a commit to your forked repository. This will trigger a `proposed` run (Terraform Plan) in Spacelift.
     * Review the plan in Spacelift to ensure it aligns with your expectations.
@@ -94,9 +94,9 @@ Once the Spacelift apply is successful, Terraform will output a `connection_scri
     # echo "Host dev_node" >> ~/.ssh/config
     # echo "  Hostname <PUBLIC_IP_ADDRESS>" >> ~/.ssh/config
     # echo "  User ubuntu" >> ~/.ssh/config
-    # echo "  IdentityFile ~/.ssh/mtckey" >> ~/.ssh/config
+    # echo "  IdentityFile ~/.ssh/tsakey" >> ~/.ssh/config
     ```
-    Make sure your private key (`~/.ssh/mtckey`) has the correct permissions (`chmod 400 ~/.ssh/mtckey`).
+    Make sure your private key (`~/.ssh/tsakey`) has the correct permissions (`chmod 400 ~/.ssh/tsakey`).
 
 4.  **Connect via VS Code:**
     * Open VS Code.
@@ -128,7 +128,7 @@ This project is organized into two main Terraform modules to promote reusability
     * `host_os`: Specifies the operating system of the host machine running the connection script (e.g., "windows" or "linux"). This is used to select the correct SSH configuration template.
 
 * **Key Resources:**
-    * `aws_key_pair.mtc_auth`: Creates an AWS EC2 Key Pair using your provided public key.
+    * `aws_key_pair.tsa_auth`: Creates an AWS EC2 Key Pair using your provided public key.
     * `aws_instance.dev_node`: Provisions the EC2 instance, attaching the security group, subnet, and key pair. It also uses a `user_data` script for initial setup of the instance.
 
 ## Outputs
@@ -142,7 +142,8 @@ output "connection_script" {
   value = templatefile("${var.host_os}-ssh-config.tpl", {
     hostname = aws_instance.dev_node.public_ip,
     user     = "ubuntu",
-    identityfile = "~/.ssh/mtckey"
+    identityfile = "~/.ssh/tsakey"
   })
   description = "Script to connect to the dev environment via SSH"
+
 }
